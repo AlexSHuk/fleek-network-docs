@@ -56,7 +56,9 @@ To pull the latest changes use the `git pull` command, as follows:
 ```sh
 git pull origin testnet-alpha-0
 ```
-
+:::tip
+If you get an error `error: Your local changes to the following files would be overwritten by merge: Cargo.lock` you need to roll back the changes by running the command `git checkout Cargo.lock` and repeat step `git pull origin testnet-alpha-0`
+:::
 :::tip
 We are using the branch named `testnet-alpha-0`, which is specific to the early testnet launch. Change to the correct branch name according to needs. For example, in the future the mainnet version will go on branch name `main`.
 :::

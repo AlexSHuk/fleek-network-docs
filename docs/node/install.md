@@ -1,7 +1,7 @@
 ---
 title: Install
 hide_title: true
-slug: Install
+slug: install
 date: 2023-08-21T23:00:00Z
 canonical: ''
 description: The Fleek Network Lightning CLI installation walkthrough
@@ -18,12 +18,12 @@ tags:
 - manual
 ---
 
-<!--
-  The following import is intentional (see partial <CheckoutCommitWarning />)
--->
-import CheckoutCommitWarning from '../../guides/partials/_checkout-commit-warning.mdx';
 import Author from '@site/src/components/Author';
 import GitCloneOptions from '../../guides/partials/_git-clone-options.mdx';
+import CreateAUser from '../../guides/partials/_create-a-user.mdx';
+import SetUserPathInConfigToml from '../../guides/partials/_set-user-path-config-toml.mdx';
+import NoteExecStartFlagCConfigPath from '../../guides/partials/_note_execstart-flag-c-config-path.mdx';
+import InfoNetworkParticipation from '../../guides/partials/_info_network_participation.mdx';
 
 This section describes how to install the Fleek Network Lightning on supported operating systems. The installation can be made quicker by running the [assisted installer](#assisted-installer) or by following the [manual installation](#manual-installation) if you want a bit more control.
 
@@ -56,31 +56,7 @@ Check the cloud provider for instructions to understand how to setup an ssh conn
 
 ### Create a user
 
-To start, you must have an administrative account, such as **root** or **sudoer**. This will allow us to install or required dependencies and libraries. We recommend using a **sudoer** user account. Thus, if you're logged in as **root** you can create a new user and add to the **sudo** group by running:
-
-```sh
-adduser <USERNAME>
-```
-
-:::tip
-For our example, we'll be using the name `lgtn` but you can pick whichever you'd like.
-:::
-
-```sh
-adduser lgtn
-```
-
-After completing the `adduser` steps, execute the `usermod` to add the `user` to the **sudo** group, as follows:
-
-```sh
-usermod -aG sudo lgtn
-```
-
-Finally, switch to the new **user** by using the command:
-
-```sh
-su lgtn
-```
+<CreateAUser />
 
 ### Run the script for a quick install
 
@@ -124,7 +100,7 @@ On success, you should be greeted by the following welcome screen:
 ★★★★★★★★★ 🌍 Website https://fleek.network
 ★★★★★★★★★ 📚 Documentation https://docs.fleek.network
 ★★★★★★★★★ 💾 Git repository https://github.com/fleek-network/lightning
-★★★★★★★★★ 🤖 Discord https://discord.gg/fleekxyz
+★★★★★★★★★ 🤖 Discord https://discord.gg/fleek
 ★★★★★★★★★ 🐤 Twitter https://twitter.com/fleek_net
 ★★★★★★★★★ 🎨 Ascii art by https://www.asciiart.eu
 
@@ -135,13 +111,10 @@ Remaining output omitted for brevity, you'll not see this text line
 
 Follow the installation wizard to have the Fleek Network Lightning CLI and service installed on the [supported server](/docs/node/requirements).
 
-After creating the service file, you should reload the Systemd process, to apply the newly created service. You can do this by executing:
-
-
 After creating the service, launch the service by executing the following command:
 
 ```sh
-systemctl start lightning.service
+sudo systemctl start lightning.service
 ```
 
 :::tip
@@ -149,10 +122,10 @@ To learn more about Systemctl commands, visit the section [Use Systemctl to mana
 :::
 
 :::tip
-Find the timeline of events for the Lightning service by checking the log files. Learn about it in the section [Log Messages](#analyzing-log-messages).
+Find the timeline of events for the Lightning service by checking the log files. Learn about it in the section [Log Messages](/docs/node/analyzing-logs).
 :::
 
-Once the installation is complete, do a health check! Check the section [Health Check](#health-check) to learn how to do a node health checkup.
+Once the installation is complete, do a health check! Check the section [Health Check](/docs/node/health-check) to learn how to do a node health checkup.
 
 ### About the process
 
@@ -169,6 +142,8 @@ At a high level, the installer will:
 - Pull the source code from the origin [repository](https://github.com/fleek-network/lightning)
 - Build the binary, e.g. a `lightning CLI` (lgtn) is compiled from source code
 - Setup a [Systemd](https://en.wikipedia.org/wiki/Systemd) service named lightning
+- Announces staking requirement
+- Opt-in to join network
 - Provide instructions to launch, stop the Fleek network via the Systemd lightning service
 
 :::tip
@@ -196,29 +171,7 @@ If you don't have Git installed, learn more about it and the instructions by rea
 
 ### Create a user
 
-We recommend creating a `non-root` user with administrative privileges. It'll allow us to install any system requirements.
-
-You can create a new user and add to the **sudo** group by running:
-
-:::tip
-For our example, we'll be using the name `lgtn` but you can pick whichever you'd like. If you already have a **sudoer** account, you can skip this step.
-:::
-
-```sh
-adduser lgtn
-```
-
-After completing the `adduser` steps, execute the `usermod` to add the `user` to the **sudo** group, as follows:
-
-```sh
-usermod -aG sudo lgtn
-```
-
-Finally, switch to the new **user** by using the command:
-
-```sh
-su lgtn
-```
+<CreateAUser />
 
 ### Install Rust with Rustup tool
 
@@ -278,8 +231,13 @@ cargo --version
 Here's the output we got (beware that our version might differ to yours, it's expected 😅).
 
 ```sh
-cargo 1.65.0 (4bc8f24d3 2022-10-20)
+cargo 1.75.0 (1d8b05cdd 2023-11-20)
 ```
+
+:::warning
+In order to successfully build the Fleek Network Lightning CLI, you need to have version 1.75.0 or higher installed.
+:::
+
 
 ### Lightning installer rust dependencies
 
@@ -308,7 +266,11 @@ rustup default <TOOLCHAIN-LIST-NAME>
 ```
 
 :::tip
-Rust compilation is long and compiler caching can help speed things up immensely. The Lightning CLI project can be used to reduce the perceived compilation times.
+To build Fleek Network Lightning CLI, version >= 1.75.0 is required. Get the latest version by running the command:
+
+```sh
+cargo update
+```
 :::
 
 ### Linux dependencies
@@ -340,8 +302,8 @@ sudo apt-get install cmake clang pkg-config libssl-dev gcc-multilib
 For Debian, you should install `gcc`, as follows:
 
 ```sh
-sudo apt-get install gcc
 sudo apt-get update
+sudo apt-get install gcc
 ```
 :::
 
@@ -408,31 +370,27 @@ cargo update
 Start the `install` process by running the command:
 
 ```sh
-cargo build
+cargo +stable install --locked --path core/cli --features services
 ```
-
-:::tip
-At the time of writing, Fleek Network lightning is under development, thus we're using the `cargo build` command. Alternatively, you're recommended to use the `+stable`, e.g. `cargo +stable build`.
-:::
 
 The installation process is long, as it compiles the application binary for us from the source code.
 
-🌈 Here's the output when successful! Note, that the output might differ slightly from time of writting.
+🌈 Here's the output when successful! Note, that the output might differ slightly from time of writing.
 
 ```sh
     Finished release [optimized] target(s) in 11m 22s
-  Installing /root/.cargo/bin/lightning
+  Installing /home/lgtn/.cargo/bin/lightning
    Installed package `lightning v0.1.0 (/crates/lightning)` (executable `lightning`)
 ```
 
 :::tip
-Once Rust generates the binary `lightning-node`, you can find it in the project root `target` directory. Depending on the usage of `+stable` flag, the binary should be located at `~/fleek-network/lightning/target/debug/lightning-node` or `~/fleek-network/lightning/target/release/lightning-node`.
+Once Rust generates the binary `lightning-node`, you can find it in the directory `$HOME/.cargo/bin/lightning-node`. The location can be overridden if `$CARGO_HOME` is set. Alternatively, if you've run the `cargo build` command and depending on the usage of `+stable` flag, the binary should be located at `~/fleek-network/lightning/target/debug/lightning-node` or `~/fleek-network/lightning/target/release/lightning-node`.
 :::
 
-You can create an `lgtn` symbolic link to `/usr/local/bin` to make it available globally.
+You can create a `lgtn` symbolic link to `/usr/local/bin` to make it available globally.
 
 ```sh
-sudo ln -s "$HOME/fleek-network/lightning/target/debug/lightning-node" /usr/local/bin/lgtn
+sudo ln -s "/home/lgtn/.cargo/bin/lightning-node" /usr/local/bin/lgtn
 ```
 
 After completing, you'll have the ability to type `lgtn` to execute the binary anywhere for your user account. Other users might find it better to copy or create an `alias` instead.
@@ -471,9 +429,13 @@ lgtn keys generate
 
 The keys will be generated and placed under the system directory `~/.lightning/keystore`. The `private` key is the user's responsibility and no one else can generate or recover it for you, including Fleek Network or any team member. Your keys, your responsibility!
 
+### Set user path in config.toml
+
+<SetUserPathInConfigToml />
+
 ### Set testnet in config.toml
 
-Set the testnet attribute to `true` in the `config.toml` lcated in the path `~/.lightning/config.toml`.
+Set the testnet attribute to `true` in the `config.toml` located in the path `~/.lightning/config.toml`.
 
 ```sh
 [application]
@@ -489,13 +451,33 @@ testnet = true
 The configuration file should have more content, which was omitted here to keep it short and to the point. You're interested in the `testnet` property name only.
 :::
 
+### Network participation
+
+The Node Operator has to explicitly opt-in for a node to participate in the Network, regardless of whether the node Lightning Service is running.
+
+<InfoNetworkParticipation />
+
+Amongst other motives, the ability to control if a node participates in the Network gives the operator a chance to shut it down gracefully at the end of the Epoch without incurring reputation penalties. For example, a node that opted in should actively participate, not down and unresponsive.
+
+Therefore, to participate in the Network, a Node Operator must send a request via the command opt of the Lightning CLI. The options available are in, out and status.
+
+To make an opt-in request, the operator should execute the command:
+
+```
+lgtn opt in
+```
+
+Upon success, the operator receives a confirmation text message about the node inclusion in the next Epoch.
+
+To learn more about network participation visit the [Opt](/docs/node/lightning-cli/#opt) section in the [Lightning CLI](/docs/node/lightning-cli) page.
+
 ### Start the node
 
 :::caution Warning
 To participate in the [alpha Testnet](/docs/roadmap), you have to through the onboarding process. Make sure you request access by following the [onboarding instructions](/docs/node/testnet-onboarding). If you fail to enable your node for testnet, it'll not run!
 :::
 
-To start the node, you should execute the sub-command `run`. Noteworthy that while it launches the node, you're recommended to setup a systemd service to run it for a long period.
+To start the node, you should execute the sub-command `run`. Noteworthy that while it launches the node, you're recommended to set up a systemd service to run it for a long period.
 
 ```sh
 lgtn run
@@ -505,7 +487,7 @@ lgtn run
 We recommend setting up the process as a systemd service, as it's a long-running process. Instructions to setup a systemd service are available in the section [Systemd Service Setup](#systemd-service-setup).
 :::
 
-Great! You have successfully installed all the required packages, and libraries and have compiled and installed lightning. Check the section [Health Check](#health-check) to learn how to do a node health checkup.
+Great! You have successfully installed all the required packages, and libraries and have compiled and installed lightning. Check the section [Health Check](/docs/node/health-check) to learn how to do a node health checkup.
 
 ### Systemd Service Setup
 
@@ -522,14 +504,15 @@ Open the file and put the following content:
 Description=Fleek Network Node lightning service
 
 [Service]
-User=lgtn
 Type=simple
 MemoryHigh=32G
 RestartSec=15s
 Restart=always
-ExecStart=lgtn run
+ExecStart=lgtn -c /home/lgtn/.lightning/config.toml -vv run
+ExecStop=killall -9 lgtn
 StandardOutput=append:/var/log/lightning/output.log
 StandardError=append:/var/log/lightning/diagnostic.log
+Environment=TMPDIR=/var/tmp
 
 [Install]
 WantedBy=multi-user.target
@@ -538,6 +521,8 @@ WantedBy=multi-user.target
 :::caution
 Notice that we're using `lgnt` as the username. If you have a different custom username change it accordingly. Beware that we've recommended using a `non-root` user, as described in the section [create a user](#create-a-user-1).
 :::
+
+<NoteExecStartFlagCConfigPath />
 
 Change the file permissions for the service:
 
@@ -577,115 +562,152 @@ We're assuming that you've [created a new user](#create-a-user-1) and can start 
 Start the service by:
 
 ```sh
-systemctl start lightning.service
+sudo systemctl start lightning.service
 ```
 
 :::tip
-Find the timeline of events for the Lightning service by checking the log files. Learn about it in the section [Log Messages](#analyzing-log-messages).
+Find the timeline of events for the Lightning service by checking the log files. Learn about it in the section [Log Messages](/docs/node/analyzing-logs).
 :::
 
 To learn more, visit the section [Use Systemctl to manage the Lightning Service](#use-systemctl-to-manage-systemd-service)
 
-## Health Check
+## Docker installation
 
-A health check is a special API endpoint that's used to validate the status of a service. To do a health check of a Fleek Network node use the JSON RPC interface via the command line.
+In this section we'll describe how to run a Fleek Network Lightning Node as a Docker Service. We're going to assume that you have Docker installed and running. If you need help to install Docker, check the guide [running a node in docker](/guides/Node%20Operators/running-a-node-in-docker).
+
+a) We can [easily pull and run](#quick-pull-and-run) the Lightning Docker image from our registry to run the Docker Container quickly.
+
+b) [Build the Docker image](#build-from-source) from the repository source code
+
+Optionally, [wrap the Docker Container as a Systemd Service](#docker-container-as-a-systemd-service).
 
 :::tip
-We're going to use cURL, make sure that you have it installed otherwise install it in your operating system.
+The Docker images are built for particular CPU architectures (x64) and as declared in the [requirements](/docs/node/requirements/#specs), we're mainly supporting `GenuineIntel`, as there has been reports of failure to build and run the binary on AMD. If you're running on a `AuthenticAMD`, provide us feedback on our [Discord](https://discord.gg/fleek).
 :::
 
-We'll send a request to the JSON RPC `flk_ping` method. Execute the following command:
+### Quick pull and run
+
+You can pull and run the Lightning pre-built Docker image from our GitHub and run the Docker container quickly.
+
+First, create the `~/.lightning` in the host, which will be bound to the container, as follows:
 
 ```sh
-$ curl -X POST -H "Content-Type: application/json" -d '{
-      "jsonrpc": "2.0",
-      "method": "flk_ping",
-      "params": [],
-      "id": 1
-    }' http://127.0.0.1:4069/rpc/v0
+mkdir $HOME/.lightning
 ```
 
-If the request is successful, you should get the result `pong` as follows:
+After, execute the following command:
 
 ```sh
-{
-  "jsonrpc": "2.0",
-  "result": "pong",
-  "id": 1
-}
+sudo docker run \
+    -e OPT="in" \
+    -p 4200-4299:4200-4299 \
+    -p 4300-4399:4300-4399 \
+    --mount type=bind,source=$HOME/.lightning,target=/home/lgtn/.lightning \
+    --mount type=bind,source=/var/tmp,target=/var/tmp \
+    --name lightning-node \
+    -it ghcr.io/fleek-network/lightning:latest
 ```
 
-## Use Systemctl to manage Systemd Service
+:::tip
+The command has a list of ports `-p` values that map ports in the container on the Docker host. While we try to keep the information across our documentation in sync with the latest changes or requirements e.g. port number changes, make sure that you check the section [ports](/docs/node/requirements#ports) to find the latest updates.
+:::
 
-Learn how to enable, disable, start, stop the Systemd Service for Fleek Network. The service is set up by the [Assisted installer](#assisted-installer) (automatically), or manually (optional) as described in [Manual installation](#manual-installation).
+### Build from source
 
-Reload the Systemctl daemon by executing the command:
+Clone the repository located at [https://github.com/fleek-network/lightning](https://github.com/fleek-network/lightning).
+
+<GitCloneOptions />
+
+Change directory to the project source code directory, e.g. the default `~/fleek-network/lightning`.
+
+```sh
+cd ~/fleek-network/lightning
+```
+
+Build the image named as `lightning` from our Dockerfile:
+
+```sh
+sudo docker build -t lightning -f ./Dockerfile .
+```
+
+:::tip
+Take note of the Docker image name `lightning`, as that's the name we'll use and pass to the `Docker run` to be successful. You can name it differently if that's your preference.
+:::
+
+Once the image is built, you can launch the Docker Container with a `--name` such as `lightning-node` from the `lightning` image we just created by running:
+
+```sh
+sudo docker run \
+  -e OPT="in" \
+  -p 4200-4299:4200-4299 \
+  -p 4300-4399:4300-4399 \
+  --mount type=bind,source=$HOME/.lightning,target=/home/lgtn/.lightning \
+  --mount type=bind,source=/var/tmp,target=/var/tmp \
+  --name lightning-node \
+  -it lightning
+```
+
+:::tip
+The command has a list of ports `-p` values that map ports in the container on the Docker host. While we try to keep the information across our documentation in sync with the latest changes or requirements e.g. port number changes, make sure that you check the section [ports](/docs/node/requirements#ports) to find the latest updates.
+:::
+
+If a `~/.lightning` directory or `~/.lightning/keystore` doesn't exist, one is created for you on `docker run`. You'll need to have the directory populated with the `config.toml` and `keystore` if you want to use a particular identity. Learn more about managing the keystore [here](/guides/Node%20Operators/managing-the-keystore).
+
+### Docker Container as a Systemd Service
+
+Create a unit configuration file:
+
+```sh
+sudo touch /etc/systemd/system/docker-lightning.service
+```
+
+Open the `docker-lightning.service` file in your favourite text editor and put the content:
+
+```sh
+[Unit]
+Description=Fleek Network Node lightning service
+After=docker.service
+Requires=docker.service
+
+[Service]
+Restart=always
+RestartSec=5
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill lightning-node
+ExecStartPre=-/usr/bin/docker rm lightning-node
+ExecStartPre=/usr/bin/docker pull ghcr.io/fleek-network/lightning:latest
+ExecStart=/usr/bin/docker run -e OPT="in" -p 4200-4299:4200-4299 -p 4300-4399:4300-4399 --mount type=bind,source=/home/skywalker/.lightning,target=/home/lgtn/.lightning --mount type=bind,source=/var/tmp,target=/var/tmp --name lightning-node ghcr.io/fleek-network/lightning:latest
+ExecStop=/usr/bin/docker stop lightning-node
+StandardOutput=append:/var/log/lightning/output.log
+StandardError=append:/var/log/lightning/diagnostic.log
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Change the file permissions by running the command:
+
+```sh
+sudo chmod 644 /etc/systemd/system/docker-lightning.service
+```
+
+Next, reload the Systemctl Daemon:
 
 ```sh
 sudo systemctl daemon-reload
 ```
 
-Enable the service for starting up on system boot:
+Enable the service on startup when the system boots:
 
 ```sh
-sudo systemctl enable lightning.service
+sudo systemctl enable docker-lightning.service
 ```
 
-:::caution
-You shouldn't prefix the systemctl command with **sudo** when start/stop/status the service.
-:::
+Learn how to manage the Systemd Service by reading the section [systemd service](/docs/node/systemd-service).
 
-Start the service by:
+## Frequently Used Commands (Quick Reference)
 
-```sh
-systemctl start lightning
-```
-
-:::tip
-When naming the service, the *.service can be omitted. For this reason the command can be typed as follows:
-
-```sh
-systemctl start lightning
-```
-:::
-
-Stop the service by:
-
-```sh
-systemctl stop lightning
-```
-
-Restart the service by:
-
-```sh
-systemctl restart lightning
-```
-
-Check the service status by:
-
-```sh
-systemctl status lightning.service
-```
-
-## Analyzing Log Messages
-
-The service logs provide a timeline of events for the Lightning service that is valuable for troubleshooting when encountering issues. When issues arise, analyzing log files is the first thing a node operator needs to do.
-
-To have the log message files (output.log and diagnostic.log), these have to be set up. If you have installed the Node via the [Assisted installer](#assisted-installer), the logs are set up for you automatically.
-
-You can watch the Node output by running the command:
-
-```sh
-tail -f /var/log/lightning/output.log
-```
-
-You can watch the Node diagnostics or errors by running the command:
-
-```sh
-tail -f /var/log/lightning/diagnostic.log
-```
-
-<!-- TODO: To learn more about Fleek Network and lightning, check our [Getting started guide](fleek-network-getting-started-guide). -->
+A quick reference of the most Frequently Used Commands are available for [Native](/references/Lightning%20CLI/frequently-used-commands-for-native-setup) and [Docker](/references/Docker/frequently-used-commands-for-docker-setup) setups. If you'd like a more in depth explanation of the commands, check the [health check](/docs/node/health-check), [analyzing logs](/docs/node/analyzing-logs), [systemd service](/docs/node/systemd-service) and [guides](/guides) sections separately.
 
 <Author
     name="Helder Oliveira"

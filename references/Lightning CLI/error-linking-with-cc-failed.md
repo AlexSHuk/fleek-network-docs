@@ -10,19 +10,16 @@ tags:
 - fix
 ---
 
-<!--
-  The following import is intentional (see partial <CheckoutCommitWarning />)
--->
 import Author from '@site/src/components/Author';
 
-## Check if CPU is supported
+## Check if CPU is supported
 
 ```sh
 uname -i
 ```
 
 :::caution WARNING
-Given the [CPU requirements](https://docs.fleek.network/docs/node/requirements/#specs), currently we're mainly supporting `GenuineIntel` and there have been reports of failure to build the binary on `AMD`. The `ARM64`` is a different architecture, thus not supported. Any contribution or feedback to provide support is appreciated. Feel free to let us know on our [Discord channel](https://discord.gg/fleekxyz).
+Given the [CPU requirements](/docs/node/requirements/#specs), currently we are only supporting `GenuineIntel`, featuring Intel Software Guard Extensions (SGX).
 :::
 
 ## Linking with cc error
@@ -34,21 +31,21 @@ error: linking with `cc` failed: exit status: 1
 error: could not compile `fleek-service-ping-example` (lib) due to previous error
 ```
 
-## Install `gcc`:
-
-```sh
-sudo apt-get install gcc
-```
-
 ## Update
 
 ```sh
 sudo apt-get update
 ```
 
+## Install `gcc`:
+
+```sh
+sudo apt-get install gcc
+```
+
 ## Remove previous installation files
 
-You can re-run the installation process. If you are using the assisted installer, it'll complain that the source code directory already exists. Since you've probably cloned the source code repository locally, you'll have to remove it manually. If you need help, find the instructions in the [reference](/references/Lightning%20CLI/uninstall-lightning-cli).
+You can re-run the installation process. If you are using the assisted installer, it'll complain that the source code directory already exists. Since you've probably cloned the source code repository locally, you'll have to remove it manually. If you need help, find the instructions in the [reference](/references/Lightning%20CLI/uninstall-lightning-node).
 
 ## Run the installation script
 

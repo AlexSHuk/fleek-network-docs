@@ -2,7 +2,8 @@
 // Note: type annotations allow type checking and IDEs autocompletion
 
 // const lightCodeTheme = require('prism-react-renderer/themes/github');
-const darkCodeTheme = require('prism-react-renderer/themes/dracula');
+const { themes } = require('prism-react-renderer');
+const darkCodeTheme = themes.dracula;
 
 const commonDocsOptions = {
   breadcrumbs: false,
@@ -18,21 +19,20 @@ const commonNavbarItems = [{
   position: 'left',
 },
 {
-  to: 'blog',
-  label: 'Engineering',
-  position: 'left',
-},
-{
   to: 'guides',
   label: 'Guides',
   position: 'left',
-  activeBasePath: 'guides',
 },
 {
   to: 'references',
   label: 'References',
   position: 'left',
-  activeBasePath: 'references',
+},
+{
+  href: 'https://blog.fleek.network',
+  label: 'Blog',
+  position: 'left',
+  target: '_blank',
 },
 {
   href: 'https://github.com/fleek-network/',
@@ -41,7 +41,7 @@ const commonNavbarItems = [{
   target: '_blank',
 }];
 
-const commonDiscord = 'https://discord.gg/fleekxyz';
+const commonDiscord = 'https://discord.gg/fleek';
 const commonTwitter = 'https://twitter.com/fleek_net';
 const commonHome = 'https://fleek.network';
 const commonCompanyUrl = 'https://fleek.network/';
@@ -55,6 +55,7 @@ const config = {
   url: 'https://docs.fleek.network',
   baseUrl: '/',
   onBrokenLinks: 'throw',
+  onBrokenAnchors: 'throw',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'img/favicon.ico?202301091316',
 
@@ -97,9 +98,11 @@ const config = {
         theme: {
           customCss: require.resolve('./src/css/custom.css'),
         },
-        gtag: {
-          trackingID: 'GTM-PC422SF',
-          anonymizeIP: true,
+        sitemap: {
+          changefreq: 'weekly',
+          priority: 0.9,
+          ignorePatterns: ['/tags/**'],
+          filename: 'sitemap.xml',
         },
       }),
     ],
@@ -189,6 +192,12 @@ const config = {
     }),
     plugins: [
       [
+        '@docusaurus/plugin-google-tag-manager',
+        {
+          containerId: 'GTM-PC422SF',
+        },
+      ],
+      [
         'content-docs',
         /** @type {import('@docusaurus/plugin-content-docs').Options} */
         ({
@@ -211,8 +220,8 @@ const config = {
           routeBasePath: '/references',
           // `undefined` to auto-generate
           sidebarPath: undefined,
-          sidebarCollapsed: false,
-          sidebarCollapsible: false,
+          sidebarCollapsed: true,
+          sidebarCollapsible: true,
           ...commonDocsOptions,
         }),
       ],

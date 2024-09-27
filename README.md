@@ -1,6 +1,4 @@
-<div align="center" style="padding-bottom: 20px;">
-  <img src="./static/img/logo+named.svg?202301091309" width="360px" height="auto"/>
-</div>
+![Fleek-Network-Docs-GitHub-Banner](https://github.com/fleek-network/fleek-network-docs/assets/55561695/f8ac3dbc-c844-4375-ad4a-d714c626b973)
 
 # Fleek Network docs
 [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-blue.svg)](https://conventionalcommits.org)
@@ -107,4 +105,4 @@ refactor: 💡 A code change that neither fixes a bug or adds a feature
 style: 💄 Markup, white-space, formatting, missing semi-colons...
 ```
 
-Find more about contributing [here](docs/open-source/contributing.md), please!
+Find more about contributing [here](https://docs.fleek.network/docs/Open-source/contributing), please!

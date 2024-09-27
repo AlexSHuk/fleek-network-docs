@@ -5,6 +5,7 @@ hide_title: true
 title: Getting Started
 slug: getting-started
 date: 2023-08-31T23:00:00.000+00:00
+image: ./assets/getting-started.png?202311181211
 canonical: ''
 description: A first look at what Fleek Network is, why it's important, and a simple tutorial of running and interacting with a node on your local machine!
 category: Tutorial
@@ -14,15 +15,18 @@ tags:
 - Getting Started
 ---
 
+![Getting started guide](./assets/getting-started.png?202311181211)
+
 <!--
   The following import is intentional (see partial <CheckoutCommitWarning />)
 -->
 import Author from '@site/src/components/Author';
 import GitCloneOptions from '../partials/_git-clone-options.mdx';
+import InfoNetworkParticipation from '../../guides/partials/_info_network_participation.mdx';
 
 ## Introduction
 
-For this guide, we’ll have a simple look into how Fleek Network works in its current development phase and briefly share some of the core concepts like spinning up a node and making a request to a service to put and retrieve a .car files from the network.
+For this guide, we’ll have a simple look into how Fleek Network works in its current development phase and briefly share some of the core concepts like spinning up a node.
 
 For those seeking advanced knowledge:
 
@@ -30,7 +34,7 @@ For those seeking advanced knowledge:
 * Check out [our open-source code](https://github.com/fleek-network/lightning).
 
 :::tip
-If you find any typos in our documentation, feel free to [provide us feedback](https://discord.gg/fleekxyz) or contribute by opening a PR in our repository [here](https://github.com/fleek-network/fleek-network-docs/).
+If you find any typos in our documentation, feel free to [provide us feedback](https://discord.gg/fleek) or contribute by opening a PR in our repository [here](https://github.com/fleek-network/fleek-network-docs/).
 :::
 
 ## Pre-requisites
@@ -131,20 +135,22 @@ cargo clean
 cargo update
 ```
 
-Execute the install command to build and install the Fleek Network CLI.
+Next, execute the build command to compile the Fleek Network Lightning CLI binary.
 
 ```sh
-cargo build
+cargo +stable install --locked --path core/cli --features services
 ```
 
-The install command uses the Rust compiler to build; It might take a while depending on how speedy is your machine.
+:::tip
+The build command uses the Rust compiler, which might take a while depending on how speedy the host machine is capable.
+:::
 
-Once the Rust compiler completes, the generated binary will be available in the source code project directory. If you stick with the default, that'll look like `~/fleek-network/lightning/target/debug/lightning-node`.
+Once the Rust compiler completes, the generated binary will be available in the source code project directory. If you stick with the default, that'll look like `~/.cargo/bin/lightning-node`.
 
-To avoid having to specify the pathname everytime, create a symbolic link to keep it short. Here we'll name the process as the global `lgtn`:
+To avoid having to specify the pathname every time, create a symbolic link to keep it short. Here we'll name the process as the global `lgtn`:
 
 ```sh
-sudo ln -s "~/fleek-network/lightning/target/debug/lightning-node" /usr/local/bin/lgtn
+sudo ln -s "~/.cargo/bin/lightning-node" /usr/local/bin/lgtn
 ```
 
 Run the CLI with the flag `version` to confirm it's available globally.
@@ -175,6 +181,20 @@ Options:
   -V, --version              Print version
 ```
 
+### Network participation
+
+The Node Operator has to explicitly opt-in for a node to participate in the Network, regardless of whether the node Lightning Service is running.
+
+<InfoNetworkParticipation />
+
+To make an opt-in request, the operator should execute the command:
+
+```sh
+lgtn opt in
+```
+
+Upon success, the operator receives a confirmation text message about the node inclusion in the next Epoch.
+
 ### Node Launch
 
 After [building](#build), the node can be launched by running the subcommand `run`:
@@ -194,7 +214,7 @@ Learn how to create a new Systemd service in the [manual installation](/docs/nod
 It's important for Node operators to regularly check on the health of their resources to make sure everything is running smoothly. By doing this, they can get helpful feedback and know for sure if their Node is up and running. Some experienced node operators even automate this process using cronjobs and get reports sent to them via email or other custom methods.
 
 ```sh
-curl -w "\n" localhost:4069/health
+curl -w "\n" localhost:4230/health
 ```
 
 If everything goes well, the response should be:
@@ -215,7 +235,7 @@ curl -s \
         "params": [],
         "id": 1
         }' \
-    localhost:4069/rpc/v0
+    localhost:4230/rpc/v0
 ```
 
 Which response should return the key `result` with value `pong`:
@@ -231,7 +251,7 @@ Which response should return the key `result` with value `pong`:
 
 ## Next steps
 
-While you can run the Network Node as described here, it's required to set up the Network Node correctly and securely! It requires some degree of patience, knowledge and time to go through our guides but we'll provide some guides and references to help you manage your network node server!
+While you can run the Network Node as described here, it's required to set up the Network Node correctly and securely! It requires some degree of patience, knowledge and time to go through our guides, but we'll provide some guides and references to help you manage your network node server!
 
 To avoid having to go through all the steps manually, we recommend reading our [assisted installer](/docs/node/install#assisted-installer) document for quick onboarding.
 
@@ -241,11 +261,11 @@ We introduced Fleek Network as an open-source edge computing platform to help us
 
 We have learned a bit about the importance of a decentralized edge computing network to reach and fulfill the future of computation and how the Fleek Network protocol works succinctly.
 
-We guide you through a step-by-step installation of the network node process, where we pull the source code, build the binary and launch the service.
+Furthermore, we guide you through a step-by-step installation of the network node process, where we pull the source code, build the binary and launch the service.
 
 Finally, we do a quick health check to confirm the status of our node.
 
-Discover more about the project by [watching/contributing on GitHub](https://github.com/fleek-network/lightning), following us on [Twitter](https://twitter.com/fleek_net), and joining [our community Discord](https://discord.gg/fleekxyz) for any updates.
+Discover more about the project by [watching/contributing on GitHub](https://github.com/fleek-network/lightning), following us on [Twitter](https://twitter.com/fleek_net), and joining [our community Discord](https://discord.gg/fleek) for any updates.
 
 <Author
     name="Helder Oliveira"

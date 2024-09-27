@@ -1,6 +1,6 @@
 ---
-title: Uninstall Lightning CLI
-slug: uninstall-lightning-cli
+title: Uninstall Lightning Node
+slug: uninstall-lightning-node
 hide_title: true
 tags:
 - References
@@ -12,10 +12,13 @@ tags:
 - Clean
 ---
 
-<!--
-  The following import is intentional (see partial <CheckoutCommitWarning />)
--->
 import Author from '@site/src/components/Author';
+import WarningPreventPrematureShutdown from '../../guides/partials/_warning_prevent_premature_shutdown.mdx';
+import TipShutdownGracefully from '../../guides/partials/_tip_shutdown_gracefully.mdx';
+
+<WarningPreventPrematureShutdown />
+
+<TipShutdownGracefully />
 
 ## Remove symLink
 
@@ -44,7 +47,7 @@ The default install location is `$HOME/fleek-network/lightning`. If you have sel
 To disable the Fleek Network Lightning Systemd's service, start by stopping the service.
 
 ```sh
-systemctl stop lightning.service
+sudo systemctl stop lightning.service
 ```
 
 :::tip
@@ -54,7 +57,7 @@ You can replace `lightning.service` by `lightning`.
 Disable the lightning service
 
 ```sh
-systemctl disable lightning.service
+sudo systemctl disable lightning.service
 ```
 
 If you have used the recommended procedures in the [install](/docs/node/install) documentation you'll have to remove the Systemd unit (file that defines the service).
@@ -66,7 +69,7 @@ rm /etc/systemd/system/lightning.service
 Reload the Systemd service daemon
 
 ```sh
-systemctl daemon-reload
+sudo systemctl daemon-reload
 ```
 
 ## Clear the lightning config directory
@@ -74,7 +77,7 @@ systemctl daemon-reload
 The Fleek Network lightning config directory is where the configuration, keystore–the location where your private key is hosted–and other system files are stored.
 
 :::caution WARNING
-Make sure to backup any sensitive data, such as the keystore (private keys), as you won't be able to recover the keys by any other means. If you have any funds associated with it, it'll be lost forever. The Fleek Network team or anyone else will not be able to help recover keys. Your keys, your responsibility.
+Make sure to back up any sensitive data, such as the keystore (private keys), as you won't be able to recover the keys by any other means. If you have any funds associated with it, it'll be lost forever. The Fleek Network team or anyone else will not be able to help recover keys. Your keys, your responsibility.
 :::
 
 Alternatively, instead of deleting you can move the files to a custom directory name such as`.lightning.backupDATESTAMP`, e.g. the example below we've used the date `2023-09-06-1205` as that was the time this text was written:

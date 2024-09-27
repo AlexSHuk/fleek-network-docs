@@ -2,6 +2,7 @@
 title: The Network
 slug: the-network
 hide_title: true
+description: Explore Fleek Network’s core protocol, its architecture, and unique characteristics as a decentralized edge network.
 tags:
   - protocol
   - architecture
@@ -9,16 +10,13 @@ tags:
   - decentralization
   - consensus
   - algorithms
-  - SNARKs
+  - snarks
   - rpc
   - reputation
   - ports
 sidebarCollapsible: false
 ---
 
-<!--
-  The following import is intentional (see partial <CheckoutCommitWarning />)
--->
 import Author from '@site/src/components/Author';
 import Ports from '../../guides/partials/_ports.mdx';
 
@@ -95,14 +93,14 @@ When an epoch ends, which is about 24 hours, the rewards from all submitted Deli
 
 ## Delivery Acknowledgements (SNARKs)
 
-A Delivery Acknowledgement is a signed message by a client attesting that a node has successfully delivered a task to the client. These acknowledgments are instantly finalized locally and irreversible by the client.
+A Delivery Acknowledgement is a signed message by a client attesting that a node has successfully delivered a task to the client. These acknowledgements are instantly finalized locally and irreversible by the client.
 
 The Delivery Acknowledgements are cryptographically secured and tamper-proof, meaning that the transaction contains irrefutable details about all parts involved in the transaction.
 
 A Delivery Acknowledgement includes metadata about the commodities consumed by a node while executing or running a service. Also contains metadata that is used to determine the reward attributed to a Node.
 
 :::tip
-A Node provides the computational resources to the network and keeps track of doings in a list of Delivery Acknowledgements, on which the rewards mechanism is based at the end of each Epoch (about 24 hours).
+A Node provides the computational resources to the network and keeps track of doings in a list of Delivery Acknowledgements, on which the rewards' mechanism is based at the end of each Epoch (about 24 hours).
 :::
 
 Finally, Delivery Acknowledgements are gathered and batched by nodes before being submitted to the core protocol and committee as described in the [consensus](#consensus) section.
@@ -173,7 +171,7 @@ A developer is often described as a builder who enables the end-to-end experienc
 
 ### End-user
 
-An **End-user** is someone to whom the data or computation output is ultimately delivered, among others:
+An **End-user** is someone to whom the data or computation output is ultimately delivered, amongst others:
 
 - Static assets, such as images rendered on a website
 - Image optimization output for a very particular size request
@@ -213,6 +211,10 @@ It's designed to allow anyone to create and deploy a custom service to the netwo
 
 Within a diverse ecosystem where node operators are free to choose which services to run, e.g. an operator might find popular services more appealing economically. Thus, the network is nonhomogenous, made up of different types of resource servers, requirements and services.
 
+:::note
+Loading a Service dynamically shouldn't be available in the initial version of Fleek Network.
+:::
+
 ## Abstraction and build blocks
 
 Abstraction is conceptually useful in decentralized and distributed web service development because of how incredibly complex it can become and the speed at which developers have to react to the outside world. The core team put most of the complexity into well-defined building blocks.
@@ -245,7 +247,7 @@ The repository contains the source code for the implementation of the Fleek Netw
 
 ### Directory structure
 
-There are three top-level directories, namely `lib` , `core` and `services`.
+There are three top-level directories, namely `lib`, `core` and `services`.
 
 Lib - These are open-source libraries created to help tackle the project features and packaged with a friendly license in the Rust ecosystem (MIT, Apache).
 

@@ -26,7 +26,7 @@ const sidebars = {
       collapsible: true,
       items: [
         'learn/index',
-        'learn/network',
+        'learn/the-network',
         'learn/delivery-acknowledgements',
         'learn/token-and-economics',
         'learn/services',
@@ -43,6 +43,10 @@ const sidebars = {
         'node/requirements',
         'node/testnet-onboarding',
         'node/install',
+        'node/health-check',
+        'node/analyzing-logs',
+        'node/systemd-service',
+        'node/lightning-cli',
         // TODO: Disabled `node/configuration` and `node/diagnostics` sidebar category
         // 'node/configuration',
         // 'node/diagnostics',

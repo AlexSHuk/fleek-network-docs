@@ -8,7 +8,7 @@ keywords: [contributing]
 tags:
 - git
 - repository
-- contributing
+- contribute
 - open source
 ---
 
@@ -30,8 +30,7 @@ If you like the project, but just don't have time to contribute, that's fine. Th
 
 This project and everyone participating in it is governed by the
 [Lightning Code of Conduct](https://github.com/fleek-network/lightning/blob/master/CODE_OF_CONDUCT.md).
-By participating, you are expected to uphold this code. Please report unacceptable behavior
-to <dev@fleek.network>.
+By participating, you are expected to uphold this code. Please report unacceptable behavior to the team via our Discord.
 
 
 ## I Have a Question
@@ -76,7 +75,7 @@ A good bug report shouldn't leave others needing to chase you up for more inform
 #### How Do I Submit a Good Bug Report?
 
 :::info
-You must never report security related issues, vulnerabilities or bugs including sensitive information to the issue tracker, or elsewhere in public. Instead sensitive bugs must be sent by email to <dev@fleek.network>.
+You must never report security related issues, vulnerabilities or bugs including sensitive information to the issue tracker, or elsewhere in public. Instead sensitive bugs must be sent by email to the team–request it through Discord.
 :::
 
 If you run into an issue with the project:
@@ -117,7 +116,7 @@ The project is under heavy development to release the first version of the node 
 
 
 ## Join The Project Team
-Please visit our [Discord](https://discord.gg/fleekxyz) to get in touch with us.
+Please visit our [Discord](https://discord.gg/fleek) to get in touch with us.
 
 ## Attribution
 This guide is based on the **contributing-gen**. [Make your own](https://github.com/bttger/contributing-gen)!
